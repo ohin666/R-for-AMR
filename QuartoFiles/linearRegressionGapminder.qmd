@@ -1,0 +1,68 @@
+---
+title: "linearRegresion_linear"
+format: html
+editor: visual
+---
+## background
+In this we will be looking how developing a linear regresison model to predict life expectancy
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| label: 'load packages and data'
+
+# load packages
+require(tidyverse)
+require(rms)
+
+# uplaod data
+df = read.csv('../data/gapminder_data.csv') %>%
+  filter(year == 1952)
+  
+```
+
+## Identifying variables
+
+In the figure below I will be looking at what variables are most correlated to life expectancy.
+
+The figure shows that gdperCap is most correlated while population is the least.
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| label: 'fig-somersRank'
+
+# create somers rank
+sdxy = with(df,rcorrcens(lifeExp ~ pop + gdpPercap + factor(continent)))
+
+plot(sdxy)
+
+```
+
+
+
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| label: 'linear regression'
+
+# create a datadistribution table
+dd = datadist(df)
+options(datadist = dd)
+
+
+f = ols(lifeExp ~ pop + gdpPercap + continent,
+    data = df, x = TRUE, y=TRUE)
+
+summary(f)
+```
+
+```{r}
+ggplot(Predict(f))
+```
+
+

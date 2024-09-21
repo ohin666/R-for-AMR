@@ -1,0 +1,74 @@
+---
+title: "Literate Programming"
+author: "Owen"
+format:
+  html:
+    toc: true
+editor: visual
+---
+
+## Importing data (hidden)
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| label: 'loading data'
+
+
+require(tidyverse)
+require(kableExtra)
+
+# import data
+gapminder = read.csv('../data/gapminder_data.csv')
+
+```
+
+
+## latex equation
+
+$$
+y = \mu + \sum_{i=1}
+$$
+
+Equation $e = mc^2$
+
+## plot figure
+
+This dataset has `{r} nrow(gapminder)`. As shown in @fig-lifeExp-continent we can see life expectancy based on continent, the average is `{r} round(mean(gapminder$lifeExp), 2)`
+
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| label: 'fig-lifeExp-continent'
+#| fig-cap: 'Life expectancy per year stratified by continent'
+
+gapminder %>%
+  ggplot() +
+  geom_point(aes(year, lifeExp), alpha = 0.3, size = 0.1) +
+  facet_wrap(vars(continent))
+
+```
+
+
+as shown in @tbl-lifeExp-continent this gives average life expectancy.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| label: 'tbl-lifeExp-continent'
+#| fig-cap: 'Life expectancy per year stratified by continent'
+
+kable(gapminder %>%
+  group_by(continent) %>%
+  summarise(lifeexpMean = mean(lifeExp)))
+
+```
+
+
+
+
+

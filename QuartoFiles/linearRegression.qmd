@@ -1,0 +1,60 @@
+---
+title: "LinearRegression"
+author: "Owen"
+format: html
+editor: visual
+---
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| label: 'load packages and data'
+
+# load packages
+require(tidyverse)
+require(rms)
+
+# uplaod data
+londonData = read.csv('../data/English_IMD_2019_Domains_rebased_London_by_CDRC.csv')
+```
+
+## Plotting data
+
+The below plot is plotting x and y
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| label: 'fig-plotData'
+#| layout-ncol: 2
+
+londonData %>%
+  ggplot +
+  geom_point(aes(livingEnv_london_rank, health_london_rank))
+
+londonData %>%
+  ggplot +
+  geom_point(aes(log(livingEnv_london_rank), health_london_rank))
+
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| label: 'linear regression'
+
+# create a datadistribution table
+dd = datadist(londonData)
+options(datadist = dd)
+
+
+f = ols(health_london_rank ~ livingEnv_london_rank,
+    data = londonData, x = TRUE, y=TRUE)
+```
+
+One unit increase in living environment is related to `{r}
+
+lrm
+
